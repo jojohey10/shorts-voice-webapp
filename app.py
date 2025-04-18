@@ -13,7 +13,7 @@ eleven_key = st.secrets["api"]["elevenlabs_key"]
 voice_id = st.secrets["api"]["voice_id"]
 
 topic = st.text_input("주제를 입력하세요")
-if st.button("🎧 mp3 생성"):
+if st.button("🎧 대사 듣기"):
     if topic.strip() == "":
         st.warning("주제를 입력해주세요.")
     else:
