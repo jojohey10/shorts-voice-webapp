@@ -3,23 +3,25 @@ import openai
 import requests
 import os
 
+# 최신 OpenAI 클라이언트 설정
+client = openai.OpenAI(api_key=st.secrets["api"]["openai_key"])
+
 st.set_page_config(page_title="AI 음성 생성기", layout="centered")
 
 st.title("🎙️ AI 음성 생성기 (GPT + ElevenLabs)")
 st.markdown("주제를 입력하면 GPT가 대사를 만들고 mp3로 변환해줍니다.")
 
-openai.api_key = st.secrets["api"]["openai_key"]
 eleven_key = st.secrets["api"]["elevenlabs_key"]
 voice_id = st.secrets["api"]["voice_id"]
 
 topic = st.text_input("주제를 입력하세요")
-if st.button("🎧 대사 듣기"):
+if st.button("🎧 mp3 생성"):
     if topic.strip() == "":
         st.warning("주제를 입력해주세요.")
     else:
         with st.spinner("대사 생성 중..."):
             prompt = f"Create a short, emotional 5-second monologue about: {topic}"
-            response = openai.ChatCompletion.create(
+            response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": prompt}]
             )
